@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recipes for {{ category }} - {{ option }}</title>
+</head>
+<body>
+    <h1>Recipes for {{ category }} - {{ option }}</h1>
+    <ul>
+        {% for recipe in recipes %}
+        <li>{{ recipe }}</li>
+        {% endfor %}
+    </ul>
+    <a href="/">Back to Home</a>
+</body>
+</html>
