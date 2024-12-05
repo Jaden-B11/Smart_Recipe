@@ -6,10 +6,34 @@
         <title>Search</title>
     </head>
     <body>
-        <h1>Search</h1>
-        <h2>Ingredients</h2>
-        <input><button>+</button>
-        <input type="submit" value="Submit">
+        <form>
+            <h1>Search</h1>
+            <input placeholder="Search">
+            <label>
+                <input type="radio" name="search" value="Exact wording">Exact wording
+            </label>
+            <label>
+                <input type="radio" name="search" value="Exact wording">Not exact wording
+            </label>
+            <h2>Advanced Search</h2>
+            <input placeholder="Ingredients">
+            <select>
+                <option>Cuisine</option>
+            </select>
+            <select>
+                <option>Diet</option>
+            </select>
+            <select>
+                <option>Intolerances</option>
+            </select>
+            <input placeholder="Equipment">
+            <input placeholder="Ingredients To Avoid">
+            <select>
+                <option>Type</option>
+            </select>
+            Max time needed for recipe: <input type="number">
+            <input type="submit" value="Submit">
+        </form>
         {%for i in range(3)%}
             <a href="/recipe">Recipe</a>
         {%endfor%}
