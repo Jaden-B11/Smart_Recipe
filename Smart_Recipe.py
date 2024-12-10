@@ -3,8 +3,6 @@ from flask_bootstrap import Bootstrap5
 from API import fetch_random_recipes, get_recipe_details, clean_description, clean_instructions, API_KEY, requests
 
 
-
-
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
 
@@ -35,19 +33,18 @@ def search_recipes():
     # Convert ingredients into a list
     ingredients_list = [ingredient.strip() for ingredient in ingredients.split(',')]
 
-    # Search for recipes using Spoonacular API
+    # Spoonacular API link
     url = "https://api.spoonacular.com/recipes/findByIngredients"
     params = {
         "ingredients": ','.join(ingredients_list),
         "type": meal_type,
-        "number": 6,  # Return top 5 recipes
+        "number": 6,  # Amount of recipes to be displayed (This can be changed) 
         "apiKey": API_KEY
     }
 
     response = requests.get(url, params=params)
     recipes = response.json()
     
-    # Render results page with recipes
     return render_template('recipe_search_results.html', recipes=recipes)
 
 

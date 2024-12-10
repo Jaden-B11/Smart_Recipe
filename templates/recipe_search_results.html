@@ -13,7 +13,7 @@
         {% if recipes %}
             <div class="row">
                 {% for recipe in recipes %}
-                    <div class="col-md-4">
+                    <div class="col-md-4">  <!-- Used the same widget used to show random recipes in home.html -->
                         <div class="card">
                             <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.title }}">
                             <div class="card-body">
@@ -25,7 +25,7 @@
                 {% endfor %}
             </div>
         {% else %}
-            <p>No recipes found. Please try again with different ingredients or meal type.</p>
+            <p>No recipes found. Please try again with different ingredients or change the meal type.</p>
         {% endif %}
     </div>
 </body>
