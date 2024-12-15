@@ -9,8 +9,10 @@ bootstrap = Bootstrap5(app)
 
 @app.route('/')
 def home():
+    cuisines = ["Any Cuisine", "African", "Asian", "American", "British", "Cajun", "Caribbean", "Chinese", "Eastern European", "European", "French", "German", "Greek", "Indian", "Irish", "Italian", "Japanese", "Jewish", "Korean", "Latin American", "Mediterranean", "Mexican", "Middle Eastern", "Nordic", "Southern", "Spanish", "Thai", "Vietnamese"]
+    meal_types=["Any Course", "Main Course", "Side Dish", "Dessert", "Appetizer", "Salad", "Bread", "Beverage", "Soup", "Beverage", "Sauce", "Marinade", "Fingerfood", "Snack", "Drink"]
     recipes = fetch_random_recipes()
-    return render_template('home.html', recipes=recipes)
+    return render_template('home.html', recipes=recipes, meal_types=meal_types, cuisines=cuisines)
 
 
 @app.route('/recipe/<int:recipe_id>')

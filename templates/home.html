@@ -1,50 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{ bootstrap.load_css() }}
-    {{ bootstrap.load_js() }}
-</head>
-<body>
-    <div class="container"> <br>
-        <h1><b><center>Welcome to Smart Recipe!</center></b></h1> <!-- Added boldness and centered the text -->
-        <br><br>
-        <div><strong><u>Random Recipes:</u></strong></div><br>
-        <div class="row">  <!-- https://getbootstrap.com/docs/4.0/layout/grid/ -->
-            {% for recipe in recipes %}
-                <div class="col-md-4">
-                    <div class="card"> <!-- https://getbootstrap.com/docs/4.0/components/card/ -->
-                        <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.title }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ recipe.title }}</h5>
-                            <a href="{{ url_for('recipe_details', recipe_id=recipe.id) }}" class="btn btn-primary">View Recipe</a>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		{{ bootstrap.load_css() }}
+		{{ bootstrap.load_js() }}
+    </head>
+    <body>
+        <div class="container"> <br>
+            <h1><b><center>Welcome to Smart Recipe!</center></b></h1> <!-- Added boldness and centered the text -->
+            <br><br>
+            <div><strong><u>Random Recipes:</u></strong></div><br>
+            <div class="row">	<!-- https://getbootstrap.com/docs/4.0/layout/grid/ -->
+                {% for recipe in recipes %}
+                    <div class="col-md-4">
+                        <div class="card"> <!-- https://getbootstrap.com/docs/4.0/components/card/ -->
+                            <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ recipe.title }}</h5>
+                                <a href="{{ url_for('recipe_details', recipe_id=recipe.id) }}" class="btn btn-primary">View Recipe</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
-        </div> <br><br><br><br><strong><u>Search for Recipes:</u></strong> <br> <br>
-        
-        <form action="{{ url_for('search_recipes') }}" method="POST" class="search recipe">
-            <div class="form-group">  <!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
-              <label for="ingredients">Ingredients wanted (comma separated)</label>
-              <input type="text" class="form-control" id="ingredients" name="ingredients" placeholder="Ex: egg, bacon, asparagus">
-            </div> <br>
-            <div class="form-group">   <!-- drop down menu for meal type -->
-              <label for="meal_type">Meal Type</label> 
-              <select class="form-control" id="meal_type" name="meal_type">
-                <option value="breakfast">Breakfast</option>
-                <option value="lunch">Lunch</option>
-                <option value="dinner">Dinner</option>
-              </select>
-            </div> <br>
-            <button type="submit" class="btn btn-primary">Search</button> <br><br><br>
-        </form>
-
-    </div>
-    
-</body>
-
+                {% endfor %}
+            </div> <br><br><br><br><strong><u>Search for Recipes:</u></strong> <br> <br>
+            <form action="{{ url_for('search_recipes') }}" method="POST" class="search recipe">
+                <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
+                    <label for="query">Search</label>
+                    <input type="text" class="form-control" id="query" name="query" placeholder="Search">
+                    <label>
+                        <input type="radio" name="search" value="General Search">General Search
+                    </label>
+                    <label>
+                        <input type="radio" name="search" value="Matching Text In Title">Matching Text In Title
+                    </label>
+                </div> <br>
+                <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
+                    <label for="ingredients">Ingredients wanted (comma separated)</label>
+                    <input type="text" class="form-control" id="ingredients" name="ingredients" placeholder="Ex: egg, bacon, asparagus">
+                </div> <br>
+                <div class="form-group">	 <!-- drop down menu for meal type -->
+                    <label for="cuisine">Cuisine</label>
+                    <select	class="form-control" id="cuisine" name="cuisine">
+                        {%for cuisine in cuisines%}
+                            <option value="{{cuisine|urlencode}}">{{cuisine}}</option>
+                        {%endfor%}
+                    </select>
+                </div> <br>
+                <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
+                    <label for="diets">Diets (comma separated)</label>
+                    <input type="text" class="form-control" id="diets" name="diets" placeholder="Ex: vegan, vegetarian, gluten-free">
+                </div> <br>
+                <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
+                    <label for="intolerances">Intolerances (comma separated)</label>
+                    <input type="text" class="form-control" id="intolerances" name="intolerances" placeholder="Ex: nuts, eggs, wheat">
+                </div> <br>
+                <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
+                    <label for="equipment">Equipment (comma separated)</label>
+                    <input type="text" class="form-control" id="equipment" name="equipment" placeholder="Ex: pan, oven, blender">
+                </div> <br>
+                <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
+                    <label for="avoid_ingredients">Ingredients to Avoid (comma separated)</label>
+                    <input type="text" class="form-control" id="avoid_ingredients" name="avoid_ingredients" placeholder="Ex: anchovies, cilantro, mushrooms">
+                </div> <br>
+                <div class="form-group">	 <!-- drop down menu for meal type -->
+                    <label for="meal_type">Meal Type</label>
+                    <select	class="form-control" id="meal_type" name="meal_type">
+                        {%for meal_type in meal_types%}
+                            <option value="{{meal_type|urlencode}}">{{meal_type}}</option>
+                        {%endfor%}
+                    </select>
+                </div> <br>
+                <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
+                    <label for="max_time">Max time (minutes) needed for recipe</label>
+                    <input type="number" class="form-control" id="max_time" name="max_time">
+                </div> <br>
+                <button type="submit" class="btn btn-primary">Search</button> <br><br><br>
+            </form>
+        </div>
+    </body>
 </html>
 
 
