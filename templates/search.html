@@ -6,36 +6,40 @@
         <title>Search</title>
     </head>
     <body>
-        <form>
+        <form method="POST" action="/">
             <h1>Search</h1>
-            <input placeholder="Search">
+            <input name="query" placeholder="Search">
             <label>
-                <input type="radio" name="search" value="Exact wording">Exact wording
+                <input type="radio" name="search" value="General Search">General Search
             </label>
             <label>
-                <input type="radio" name="search" value="Not Exact wording">Not exact wording
+                <input type="radio" name="search" value="Matching Text In Title">Matching Text In Title
             </label>
             <h2>Advanced Search</h2>
-            <input placeholder="Ingredients">
-            <select>
-                <option>Cuisine</option>
+            <input name="ingredients" placeholder="Ingredients">
+            <select name="cuisine">
+                {%for cuisine in cuisines%}
+                    <option value="{{cuisine|urlencode}}">{{cuisine}}</option>
+                {%endfor%}
             </select>
-            <select>
-                <option>Diet</option>
+            <input name="diets" placeholder="Diets">
+            <input name="intolerances" placeholder="Intolerances">
+            <input name="equipment" placeholder="Equipment">
+            <input name="avoidIngredients" placeholder="Ingredients To Avoid">
+            <select name="courses">
+                {%for course in courses%}
+                    <option value="{{course|urlencode}}">{{course}}</option>
+                {%endfor%}
             </select>
-            <select>
-                <option>Intolerances</option>
-            </select>
-            <input placeholder="Equipment">
-            <input placeholder="Ingredients To Avoid">
-            <select>
-                <option>Type</option>
-            </select>
-            Max time needed for recipe: <input type="number">
+            Max time (minutes) needed for recipe: <input name="maxTime" type="number">
             <input type="submit" value="Submit">
         </form>
-        {%for i in range(3)%}
-            <a href="/recipe">Recipe</a>
-        {%endfor%}
+        {%if method == "POST"%}
+            <ul>
+                {%for recipe in recipes%}
+                    <li><a href="/recipe">{{recipe.title}}</a></li>
+                {%endfor%}
+            </ul>
+        {%endif%}
     </body>
 </html>
