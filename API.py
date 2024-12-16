@@ -2,7 +2,8 @@ import requests
 import re  #imported this to help parse thrhough text but we can just parse through it ourselves 
 
 # Replace with your actual Spoonacular API key
-API_KEY = "5f9034da5a584534bf1f23894d21e42a"
+API_KEY = "d81ccf44766f404da43f003dccc46f61"
+# API_KEY = "5f9034da5a584534bf1f23894d21e42a"
 # API_KEY = "b1520ada85e8455e92d4c51d187e092f"
 
 
