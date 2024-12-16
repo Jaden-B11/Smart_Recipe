@@ -28,12 +28,14 @@
                 <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
                     <label for="query">Search</label>
                     <input type="text" class="form-control" id="query" name="query" placeholder="Search">
-                    <label>
-                        <input type="radio" name="search" value="General Search">General Search
-                    </label>
-                    <label>
-                        <input type="radio" name="search" value="Matching Text In Title">Matching Text In Title
-                    </label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="search" value="General Search" id="general_search">
+                        <label class="form-check-label" for="general_search">General Search</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="search" value="Matching Text In Title" id="matching_text_in_title">
+                        <label class="form-check-label" for="matching_text_in_title">Matching Text In Title</label>
+                    </div>
                 </div> <br>
                 <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
                     <label for="ingredients">Ingredients wanted (comma separated)</label>
