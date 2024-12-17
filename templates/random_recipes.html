@@ -7,25 +7,30 @@
     {{ bootstrap.load_css() }}
     {{ bootstrap.load_js() }}
     <style>
-body {
-    background-image: url("{{ background_image }}");
-    background-size: cover;       
-    background-position: center;  
-    color: white;                 
-}
+        body {
+            background-image: url("{{ background_image }}");
+            background-size: cover;       
+            background-position: center;  
+            color: white;                 
+        }
 
-.container {
-    background: rgba(0, 0, 0, 0.5); 
-    padding: 20px;
-    border-radius: 10px;
-    width: 80%;                   
-    max-width: 1100px;           
-    text-align: center;          
-}
+        .container {
+            background: rgba(0, 0, 0, 0.8); 
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;                   
+            max-width: 1100px;            
+            text-align: center;          
+        }
 
-h1 {
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5); 
-}
+        h1 {
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5); 
+        }
+
+        ul {
+            display: inline-block; 
+            text-align: left; 
+        }
     </style>
 </head>
 <body>
@@ -40,6 +45,8 @@ h1 {
                 <li>{{ ingredient.original }}</li>
             {% endfor %}
         </ul>
+        <br>
+        <br>
 
         <h2>Instructions</h2>
         <p>{{ recipe.instructions or "No instructions provided." }}</p>
