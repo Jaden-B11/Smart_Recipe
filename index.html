@@ -1,0 +1,33 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {{ bootstrap.load_css() }}
+    {{ bootstrap.load_js() }}
+
+</head>
+<body>
+    <div class="container">
+        <h1>Jaden's Random Picture Gallery</h1>
+        <br>
+        <p>
+ 
+        <a href="{{ url_for('p2', image_info=image_info, imageNum=imageNums[0]) }}">{{ image_info[imageNums[0]]['title'] }}</a>
+        <br>
+        <img src="/static/images/{{ image_info[imageNums[0]]['id'] }}.jpg" class="w-50">
+        <br><br><br><br>
+        <a href="{{ url_for('p2', image_info=image_info, imageNum=imageNums[1]) }}">{{ image_info[imageNums[1]]['title'] }}</a>
+        <br>
+        <img src="/static/images/{{ image_info[imageNums[1]]['id'] }}.jpg" class="w-50">
+        <br><br><br><br>
+        <a href="{{ url_for('p2', image_info=image_info, imageNum=imageNums[2]) }}">{{ image_info[imageNums[2]]['title'] }}</a>
+        <br>
+        <img src="/static/images/{{ image_info[imageNums[2]]['id'] }}.jpg" class="w-50">
+    </div>
+</body>
+</html>
+

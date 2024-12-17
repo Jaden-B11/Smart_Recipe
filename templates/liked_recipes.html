@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liked Recipes</title>
+    {{ bootstrap.load_css() }}
+</head>
+<body>
+    <div class="container">
+        <h1><b><center>Your Liked Recipes</center></b></h1>
+        <br>
+
+        {% if liked_recipes %}
+            <div class="row">
+                {% for recipe in liked_recipes %}
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ recipe.title }}</h5>
+                                <a href="{{ url_for('recipe_details', recipe_id=recipe.id) }}" class="btn btn-primary">View Recipe</a>
+                                <form action="{{ url_for('unlike_recipe', recipe_id=recipe.id) }}" method="POST" style="margin-top: 10px;">
+                                    <button type="submit" class="btn btn-danger">Unlike Recipe</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No recipes liked yet. Start liking some recipes!</p>
+        {% endif %}
+        <br>
+        <a href="{{ url_for('home') }}" class="btn btn-secondary">Back to Homepage</a>
+        <br><br>
+    </div>
+</body>
+</html>

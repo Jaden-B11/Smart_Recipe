@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ recipe.title }}</title>
+    {{ bootstrap.load_css() }}
+    {{ bootstrap.load_js() }}
+</head>
+<body>
+    <div class="container">
+        <h1>{{ recipe.title }}</h1>
+        <img src="{{ recipe.image }}" alt="{{ recipe.title }}" class="recipe-image"> 
+        <br><br>
+        <p><strong>Description:</strong> {{ recipe.summary }}</p>
+
+        <h2>Ingredients</h2>
+        <ul>
+            {% for ingredient in recipe.extendedIngredients %}
+                <li>{{ ingredient.original }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Instructions</h2>
+        <p>{{ recipe.instructions or "No instructions provided." }}</p>
+
+        {% if isLiked == 'no' %}
+            <form action="{{ url_for('like_recipe', recipe_id=recipe.id) }}" method="POST">
+                <button type="submit" class="btn btn-success">Add to Liked Recipes</button>
+            </form>
+        {% else %}
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading"><b>Successfully added</b></h4>
+                <p>you added this recipe to your liked recipes, you can view your liked recipes on the Homepage</p>
+                <hr>
+            </div> 
+        {% endif %}
+        <br><br>
+
+        {% if previous_page == 'search' %}
+            <a href="{{ url_for('search_recipes') }}" class="btn btn-secondary">Back to Search Results</a>
+        {% else %}
+            <a href="{{ url_for('home') }}" class="btn btn-secondary">Back to Homepage</a>
+        {% endif %}
+        
+        
+        <br><br><br>
+    </div>
+</body>
+</html>
