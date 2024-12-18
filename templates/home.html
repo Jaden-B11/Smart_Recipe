@@ -5,13 +5,26 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		{{ bootstrap.load_css() }}
 		{{ bootstrap.load_js() }}
+        <link rel="stylesheet" href="static/css/home.css">
     </head>
     <body>
         <div class="container"> <br>
+            <div class="top-right-button">
+                <a style="font-size:2vw" href="{{ url_for('liked_recipes') }}" class="btn btn-secondary">❤️</a>
+            </div>
+            <br>
             <h1><b><center>Welcome to Smart Recipe!</center></b></h1> <!-- Added boldness and centered the text -->
-            <br><br>
-            <div><strong><u>Random Recipes:</u></strong></div><br>
-            <div class="row">	<!-- https://getbootstrap.com/docs/4.0/layout/grid/ -->
+            <br>
+
+            <!-- Display the random food image -->
+            {% if random_image %}
+            <div class="text-center">
+                <img src="{{ random_image }}" alt="Random Food" class="img-fluid" style="max-height: 300px;">
+            </div>
+            {% endif %}
+            
+            <div><strong><u style="font-size:1.5vw">Random Recipes:</u></strong></div><br>
+            <div class="row">  <!-- https://getbootstrap.com/docs/4.0/layout/grid/ -->
                 {% for recipe in recipes %}
                     <div class="col-md-4">
                         <div class="card"> <!-- https://getbootstrap.com/docs/4.0/components/card/ -->
@@ -23,26 +36,26 @@
                         </div>
                     </div>
                 {% endfor %}
-            </div> <br><br><br><br><strong><u>Search for Recipes:</u></strong> <br> <br>
+            </div> <br><strong><u style="font-size:1.5vw">Search for Recipes:</u></strong> <br> <br>
             <form action="{{ url_for('search_recipes') }}" method="POST" class="search recipe">
                 <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
-                    <label for="query">Search</label>
+                    <strong><label for="query">Search</label><strong>
                     <input type="text" class="form-control" id="query" name="query" placeholder="Search">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="search" value="General Search" id="general_search">
-                        <label class="form-check-label" for="general_search">General Search</label>
+                        <strong><label class="form-check-label" for="general_search">General Search</label><strong>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="search" value="Matching Text In Title" id="matching_text_in_title">
-                        <label class="form-check-label" for="matching_text_in_title">Matching Text In Title</label>
+                        <strong><label class="form-check-label" for="matching_text_in_title">Matching Text In Title</label><strong>
                     </div>
                 </div> <br>
                 <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
-                    <label for="ingredients">Ingredients wanted (comma separated)</label>
+                    <strong><label for="ingredients">Ingredients wanted (comma separated)</label><strong>
                     <input type="text" class="form-control" id="ingredients" name="ingredients" placeholder="Ex: egg, bacon, asparagus">
                 </div> <br>
                 <div class="form-group">	 <!-- drop down menu for meal type -->
-                    <label for="cuisine">Cuisine</label>
+                    <strong><label for="cuisine">Cuisine</label><strong>
                     <select	class="form-control" id="cuisine" name="cuisine">
                         {%for cuisine in cuisines%}
                             <option value="{{cuisine|urlencode}}">{{cuisine}}</option>
@@ -50,23 +63,23 @@
                     </select>
                 </div> <br>
                 <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
-                    <label for="diets">Diets (comma separated)</label>
+                    <strong><label for="diets">Diets (comma separated)</label><strong>
                     <input type="text" class="form-control" id="diets" name="diets" placeholder="Ex: vegan, vegetarian, gluten-free">
                 </div> <br>
                 <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
-                    <label for="intolerances">Intolerances (comma separated)</label>
+                    <strong><label for="intolerances">Intolerances (comma separated)</label><strong>
                     <input type="text" class="form-control" id="intolerances" name="intolerances" placeholder="Ex: nuts, eggs, wheat">
                 </div> <br>
                 <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
-                    <label for="equipment">Equipment (comma separated)</label>
+                    <strong><label for="equipment">Equipment (comma separated)</label><strong>
                     <input type="text" class="form-control" id="equipment" name="equipment" placeholder="Ex: pan, oven, blender">
                 </div> <br>
                 <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
-                    <label for="avoid_ingredients">Ingredients to Avoid (comma separated)</label>
+                    <strong><label for="avoid_ingredients">Ingredients to Avoid (comma separated)</label><strong>
                     <input type="text" class="form-control" id="avoid_ingredients" name="avoid_ingredients" placeholder="Ex: anchovies, cilantro, mushrooms">
                 </div> <br>
                 <div class="form-group">	 <!-- drop down menu for meal type -->
-                    <label for="meal_type">Meal Type</label>
+                    <strong><label for="meal_type">Meal Type</label><strong>
                     <select	class="form-control" id="meal_type" name="meal_type">
                         {%for meal_type in meal_types%}
                             <option value="{{meal_type|urlencode}}">{{meal_type}}</option>
@@ -74,7 +87,7 @@
                     </select>
                 </div> <br>
                 <div class="form-group">	<!-- used a email/password login bootstrap widget as the template and changed it up a bit to add a dropdown menu for meal type https://getbootstrap.com/docs/4.0/components/card/ --> 
-                    <label for="max_time">Max time (minutes) needed for recipe</label>
+                    <strong><label for="max_time">Max time (minutes) needed for recipe</label><strong>
                     <input type="number" class="form-control" id="max_time" name="max_time">
                 </div> <br>
                 <button type="submit" class="btn btn-primary">Search</button> <br><br><br>
@@ -82,5 +95,3 @@
         </div>
     </body>
 </html>
-
-
