@@ -8,7 +8,7 @@
 
 #added my liked recipes button on homepage
 
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session #(stores data specific to a user's session)
 from flask_bootstrap import Bootstrap5
 from API import fetch_random_recipes, get_recipe_details, clean_description, clean_instructions, API_KEY, requests
 
@@ -61,7 +61,7 @@ def search_recipes():
         ingredients = request.form.get('ingredients')
         meal_type = request.form.get('meal_type')
 
-        # (imported Session) Save the data in the session to reuse during GET requests
+        # (imported Session) Save the data in the session to reuse during GET requests - https://www.geeksforgeeks.org/how-to-use-flask-session-in-python-flask/
         session['ingredients'] = ingredients
         session['meal_type'] = meal_type
 
@@ -122,7 +122,7 @@ def liked_recipes():
 @app.route('/unlike/<int:recipe_id>', methods=['POST'])
 def unlike_recipe(recipe_id):
     liked_recipes = session['liked_recipes']
-    session['liked_recipes'] = [r for r in liked_recipes if r['id'] != recipe_id]
+    session['liked_recipes'] = [r for r in liked_recipes if r['id'] != recipe_id] 
     return redirect(url_for('liked_recipes'))
 
 if __name__ == "__main__":
