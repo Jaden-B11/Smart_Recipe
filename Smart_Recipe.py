@@ -1,3 +1,11 @@
+#Course: CST 205
+#Title: Smart Recipe
+#Abstract: This project uses an API to pull in a large amount of recipes, in which the user can view, like, and search for recipes. 
+#Authors: Alan Eckhaus, Zainab Abbasi, Jaden Bartram, Joseph Bravo
+#Date: November - December 18
+
+
+
 #added my liked recipes button on homepage
 
 from flask import Flask, render_template, request, redirect, url_for, session
