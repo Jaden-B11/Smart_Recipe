@@ -9,30 +9,18 @@ app = Flask(__name__)
 app.secret_key = "CSUMB_OTTER" 
 bootstrap = Bootstrap5(app)
 
-# def fetch_image():
-#     response = requests.get('https://foodish-api.com/api/')
-#     if response.status_code == 200:
-#         results = response.json()
-#         print(results) 
-#         img = results.get('image') 
-#         print(img)  
-#         return img
-
 
 @app.route('/')
 def home():
     cuisines = ["Any Cuisine", "African", "Asian", "American", "British", "Cajun", "Caribbean", "Chinese", "Eastern European", "European", "French", "German", "Greek", "Indian", "Irish", "Italian", "Japanese", "Jewish", "Korean", "Latin American", "Mediterranean", "Mexican", "Middle Eastern", "Nordic", "Southern", "Spanish", "Thai", "Vietnamese"]
     meal_types = ["Any Course", "Main Course", "Side Dish", "Dessert", "Appetizer", "Salad", "Bread", "Beverage", "Soup", "Beverage", "Sauce", "Marinade", "Fingerfood", "Snack", "Drink"]
     recipes = fetch_random_recipes()
-    # background_image = fetch_image()
-    background_image = url_for('static', filename='images/background.jpg')
-    return render_template('home.html', recipes=recipes, meal_types=meal_types, cuisines=cuisines, background_image=background_image)
+
+
+    return render_template('home.html', recipes=recipes, meal_types=meal_types, cuisines=cuisines)
 
 @app.route('/recipe/<int:recipe_id>')
 def recipe_details(recipe_id):
-    # background_image = fetch_image()
-    background_image = url_for('static', filename='images/background_recipe_details.jpg')
-
     recipe = get_recipe_details(recipe_id)
     isLiked = request.args.get('isLiked', 'no') #Get the isLiked value from query parameters
 
@@ -42,55 +30,48 @@ def recipe_details(recipe_id):
     if recipe:
         recipe['summary'] = clean_description(recipe.get('summary', 'No description available.'))
         recipe['instructions'] = clean_instructions(recipe.get('instructions', 'No instructions available.'))
-        return render_template('random_recipes.html', recipe=recipe, previous_page=previous_page, isLiked=isLiked, background_image=background_image)
+        return render_template('random_recipes.html', recipe=recipe, previous_page=previous_page, isLiked=isLiked)
     else:
         return "Recipe no longer exists", 404
 
 @app.route('/search', methods=['POST', 'GET']) #added the possibility a GET request if user wants to go back to search results if clicked on a recipe through search function
 def search_recipes():
+    # Spoonacular API link
+    url = "https://api.spoonacular.com/recipes/complexSearch"
     if request.method == 'POST':
-        # Spoonacular API link
-        url = "https://api.spoonacular.com/recipes/complexSearch"
-        params = {
+        session['params'] = {
             "number": 6,	# Amount of recipes to be displayed (This can be changed) 
             "apiKey": API_KEY
         }
         if request.form.get("query"):
             if request.form.get("search")=="Matching Text In Title":
-                params["titleMatch"]=request.form.get("query")
+                session['params']["titleMatch"]=request.form.get("query")
             else:
-                params["query"]=request.form.get("query")
+                session['params']["query"]=request.form.get("query")
         if request.form.get("cuisine") != "Any%20Cuisine":
-            params["cuisine"]=request.form.get("cuisine")
+            session['params']["cuisine"]=request.form.get("cuisine")
         if request.form.get("ingredients"):
-            params["includeIngredients"]=request.form.get("ingredients")
+            session['params']["includeIngredients"]=request.form.get("ingredients")
         if request.form.get("diets"):
-            params["diet"]=request.form.get("diets")
+            session['params']["diet"]=request.form.get("diets")
         if request.form.get("intolerances"):
-            params["intolerances"]=request.form.get("intolerances")
+            session['params']["intolerances"]=request.form.get("intolerances")
         if request.form.get("equipment"):
-            params["equipment"]=request.form.get("equipment")
+            session['params']["equipment"]=request.form.get("equipment")
         if request.form.get("avoid_ingredients"):
-            params["excludeIngredients"]=request.form.get("avoid_ingredients")
+            session['params']["excludeIngredients"]=request.form.get("avoid_ingredients")
         if request.form.get("meal_type") != "Any%20Course":
-            params["type"]=request.form.get("meal_type")
+            session['params']["type"]=request.form.get("meal_type")
         if request.form.get("max_time"):
-            params["maxReadyTime"]=request.form.get("max_time")
+            session['params']["maxReadyTime"]=request.form.get("max_time")
 
-        print(params)
-        response = requests.get(url, params=params)
-        if response.status_code == 200:
-            recipes = response.json()
-            pprint(recipes)
-        else:
-            recipes = {"Error":response.status_code}
-    else:
-        recipes['results'] = []
+    params = session.get('params', {})
+    print(params)
+    response = requests.get(url, params=params)
+    recipes = response.json()
+    pprint(recipes)
 
-    # background_image = fetch_image()
-    background_image = url_for('static', filename='images/background_search_results.jpg')
-
-    return render_template('recipe_search_results.html', recipes=recipes['results'], background_image=background_image)
+    return render_template('recipe_search_results.html', recipes=recipes.get('results',[]))
 
 @app.route('/like/<int:recipe_id>', methods=['POST'])
 def like_recipe(recipe_id):
@@ -115,8 +96,8 @@ def like_recipe(recipe_id):
 @app.route('/liked_recipes')
 def liked_recipes():
     liked_recipes = session.get('liked_recipes', [])
-    background_image = url_for('static', filename='images/background.jpg')
-    return render_template('liked_recipes.html', liked_recipes=liked_recipes, background_image=background_image)
+
+    return render_template('liked_recipes.html', liked_recipes=liked_recipes)
 
 # Route to remove a recipe from the liked list
 @app.route('/unlike/<int:recipe_id>', methods=['POST'])

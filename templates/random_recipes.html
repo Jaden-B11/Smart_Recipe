@@ -6,7 +6,7 @@
         <title>{{ recipe.title }}</title>
         {{ bootstrap.load_css() }}
         {{ bootstrap.load_js() }}
-        <link rel="stylesheet" href="static/css/random_recipes.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/random_recipes.css') }}">
     </head>
     <body>
         <div class="container">
